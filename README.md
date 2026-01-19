@@ -27,3 +27,22 @@ A simple smart contract written in Solidity to register users on the blockchain.
 - Events to notify user creation
 - Require statements for validation
 - Deploying and testing contracts in Remix IDE
+
+
+---
+
+## 🗳️ Voting Smart Contract
+
+This contract allows users to vote on predefined proposals.
+Each address can vote only once.
+
+### Features
+
+- Create proposals on deployment
+- Prevent double voting
+- Emit events on vote
+
+### Example
+
+Proposals: Alice, Bob, Charlie
+
