@@ -19,3 +19,11 @@ A simple smart contract written in Solidity to register users on the blockchain.
 6. Call `createUser` with a name and age to register a user
 7. Use the `users` mapping to read stored users by ID
 
+## Concepts Learned
+
+- Solidity smart contracts
+- Structs to store user data
+- Mapping for user registry
+- Events to notify user creation
+- Require statements for validation
+- Deploying and testing contracts in Remix IDE
