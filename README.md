@@ -33,6 +33,37 @@ A simple smart contract written in Solidity to register users on the blockchain.
 
 ## 🗳️ Voting Smart Contract
 
+A simple decentralized voting system written in Solidity.
+
+### Features
+
+- Create proposals at deployment
+- One vote per address
+- Owner-controlled voting lifecycle
+- Prevent voting when closed
+- Emit events for transparency
+
+### Contract Logic
+
+- The contract owner is set at deployment using `msg.sender`
+- Proposals are stored in an array
+- Votes are tracked using a mapping to prevent double voting
+- The owner can close the voting process
+
+### How to Use (Remix IDE)
+
+1. Open Remix IDE at https://remix.ethereum.org
+2. Open `contracts/Voting.sol`
+3. Compile using Solidity version `0.8.20`
+4. Deploy using Remix VM
+5. Pass proposal names as an array:
+6. Call `vote(proposalId)` to vote
+7. Call `closeVoting()` to close the voting (owner only)
+
+---
+
+## 🗳️ Voting Smart Contract
+
 This contract allows users to vote on predefined proposals.
 Each address can vote only once.
 
