@@ -59,21 +59,3 @@ A simple decentralized voting system written in Solidity.
 5. Pass proposal names as an array:
 6. Call `vote(proposalId)` to vote
 7. Call `closeVoting()` to close the voting (owner only)
-
----
-
-## 🗳️ Voting Smart Contract
-
-This contract allows users to vote on predefined proposals.
-Each address can vote only once.
-
-### Features
-
-- Create proposals on deployment
-- Prevent double voting
-- Emit events on vote
-
-### Example
-
-Proposals: Alice, Bob, Charlie
-
