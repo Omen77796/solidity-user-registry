@@ -2,6 +2,9 @@
 pragma solidity ^0.8.20;
 
 contract Voting {
+    address public owner;
+    bool public votingOpen;
+
     struct Proposal {
         string name;
         uint voteCount;
@@ -14,6 +17,8 @@ contract Voting {
     event VoteCast(address voter, uint proposalId);
 
     constructor(string[] memory proposalNames) {
+        owner = msg.sender;
+        votingOpen = true;
         for (uint i = 0; i < proposalNames.length; i++) {
             proposals.push(Proposal({
                 name: proposalNames[i],
@@ -25,6 +30,7 @@ contract Voting {
     }
 
     function vote(uint proposalId) public {
+        require(votingOpen, "La votacion esta cerrada");
         require(!hasVoted[msg.sender], "Ya votaste");
         require(proposalId < proposals.length, "Propuesta invalida");
 
@@ -33,6 +39,12 @@ contract Voting {
 
         emit VoteCast(msg.sender, proposalId);
     }
+
+    function closeVoting() public {
+    require(msg.sender == owner, "Solo el owner puede ejecutar esta funcion");
+    votingOpen = false;
+}
+
 
     function getProposalsCount() public view returns (uint) {
         return proposals.length;
