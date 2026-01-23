@@ -10,21 +10,28 @@ contract SimpleWallet {
         owner = msg.sender;
         
     }
+
+    modifier onlyOwner() {
+    require(msg.sender == owner, "No eres el owner");
+    _;
+    }
+
     
     receive() external payable {}
+
     function getBalance() public view returns (uint) {
     return address(this).balance;
-}
-    function withdraw() public {
-    require(msg.sender == owner, "No eres el owner");
+    }
 
+    function withdraw() public onlyOwner {
     uint amount = address(this).balance;
     require(amount > 0, "No hay fondos para retirar");
 
     payable(owner).transfer(amount);
 
     emit Withdraw(owner, amount);
-}
-
+    }
+    
 }        
+       
 
