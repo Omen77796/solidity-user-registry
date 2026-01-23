@@ -1,3 +1,5 @@
+  
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -6,32 +8,46 @@ contract SimpleWallet {
 
     event Withdraw(address indexed to, uint amount);
 
+    event Deposit(address indexed from, uint amount);
+
     constructor() {
         owner = msg.sender;
         
     }
 
     modifier onlyOwner() {
-    require(msg.sender == owner, "No eres el owner");
+        require(msg.sender == owner, "No eres el owner");
     _;
     }
 
-    
-    receive() external payable {}
+    receive() external payable {
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    fallback() external payable {
+        emit Deposit(msg.sender, msg.value);
+    }
 
     function getBalance() public view returns (uint) {
-    return address(this).balance;
+        return address(this).balance;
     }
 
     function withdraw() public onlyOwner {
-    uint amount = address(this).balance;
-    require(amount > 0, "No hay fondos para retirar");
+        uint amount = address(this).balance;
+        require(amount > 0, "No hay fondos para retirar");
 
     payable(owner).transfer(amount);
 
     emit Withdraw(owner, amount);
     }
     
-}        
-       
+    function withdrawPartial(uint amount) public onlyOwner {
+    require(amount > 0, "El monto debe ser mayor a 0");
+    require(amount <= address(this).balance, "Fondos insuficientes");
 
+    payable(owner).transfer(amount);
+
+    emit Withdraw(owner, amount);
+    }
+
+}        
