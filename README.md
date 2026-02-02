@@ -76,6 +76,13 @@ A minimal Ethereum wallet written in Solidity that can receive, store, and withd
 - Emits events on deposit and withdrawal
 - Access control using modifier
 
+### Security Improvements
+
+- Uses `call{value: amount}` instead of `transfer`
+- Prevents gas limit issues when sending ETH
+- Follows modern Solidity best practices
+
+
 ### Security
 
 - Owner-only withdrawals
