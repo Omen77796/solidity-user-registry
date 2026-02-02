@@ -1,22 +1,21 @@
-  
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 contract SimpleWallet {
     address public owner;
+    mapping(address => bool) public owners;
 
     event Withdraw(address indexed to, uint amount);
-
     event Deposit(address indexed from, uint amount);
+    event OwnerAdded(address indexed newOwner);
 
     constructor() {
         owner = msg.sender;
-        
+        owners[msg.sender] = true;
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "No eres el owner");
+        require(owners[msg.sender], "No autorizado");
     _;
     }
 
@@ -36,16 +35,41 @@ contract SimpleWallet {
         uint amount = address(this).balance;
         require(amount > 0, "No hay fondos para retirar");
 
-    payable(owner).transfer(amount);
+        (bool success, ) = owner.call{value: amount}("");
+        require(success, "Fallo al transferir");
 
-    emit Withdraw(owner, amount);
+        emit Withdraw(owner, amount);
     }
     
     function withdrawPartial(uint amount) public onlyOwner {
-    require(amount > 0, "El monto debe ser mayor a 0");
-    require(amount <= address(this).balance, "Fondos insuficientes");
+        require(amount > 0, "Monto invalido");
+        require(amount <= address(this).balance, "Fondos insuficientes");
 
-    payable(owner).transfer(amount);
+        (bool success, ) = owner.call{value: amount}(""); 
+        require(success, "Fallo al transferir");
+
+        emit Withdraw(owner, amount);
+    } 
+
+    function transferTo(address payable to, uint amount) public onlyOwner {
+        require(to != address(0), "Direccion invalida");
+        require(amount > 0, "Monto invalido");
+        require(amount <= address(this).balance, "Fondos insuficientes");
+
+        (bool success, ) = to.call{value: amount}("");
+        require(success, "Transferencia fallida");
+        
+        emit Withdraw(to, amount);
+    }
+
+    function addOwner(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "Direccion invalida");
+        
+        owners[newOwner] = true;
+        emit OwnerAdded(newOwner);
+    }
+
+}      
 
     emit Withdraw(owner, amount);
     }
