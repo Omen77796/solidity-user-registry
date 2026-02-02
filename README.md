@@ -88,3 +88,6 @@ A minimal Ethereum wallet written in Solidity that can receive, store, and withd
 - Owner-only withdrawals
 - Input validation
 - Balance checks before transfers
+- Implements Reentrancy Guard
+- Follows Checks-Effects-Interactions pattern
+- Uses `call` for safe ETH transfers
